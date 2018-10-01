@@ -1,0 +1,60 @@
+getwd() 
+setwd('/Users/alexvlima/Downloads')
+
+list.files()
+
+base <- readxl::read_excel('MUN-POP-AREA-RESIDUOS.xlsx')
+head(base)
+nrow(base)
+sum(base$POPULA.U.00C7..U.00C3.O.ESTIMADA)
+sum(base$AREA.Km2)
+
+options(scipen = 10)
+
+# Prepare Data
+dados <- as.matrix(base[,c(5,8:9)])
+dados <- na.omit(dados) # listwise deletion of missing
+dados <- scale(dados) # standardize variables
+
+# Determine number of clusters
+wss <- (nrow(dados)-1)*sum(apply(dados,2,var))
+for (i in 2:15) wss[i] <- sum(kmeans(dados, 
+                                     centers=i)$withinss)
+plot(1:15, wss, type="b", xlab="N\u00f9mero de Grupos",
+     ylab="Soma dos Quadrados dos Erros nos Grupos")
+
+# K-Means Cluster Analysis
+fit <- kmeans(dados, 3) # 5 cluster solution
+# get cluster means 
+aggregate(dados,by=list(fit$cluster),FUN=mean)
+# append cluster assignment
+dados <- data.frame(dados, fit$cluster)
+
+# K-Means Clustering with 5 clusters
+fit <- kmeans(dados, 3)
+fit
+# Cluster Plot against 1st 2 principal components
+
+# vary parameters for most readable graph
+library(cluster) 
+clusplot(dados, fit$cluster, color=F, shade=F, 
+         labels=0, lines=0,
+         main = 'Gr\u00e1fico de Agrupamentos dos Munic\u00edpios.',
+         sub = "Essas componentes explicam 86.4% da variabilidade dos pontos.",
+         xlab = "Componente 1", ylab = "Componente 2")
+
+base_cluster <- data.frame(base, fit$cluster)
+
+library(dplyr)
+base_cluster %>%
+  group_by(fit.cluster) %>%
+  summarise(pop = mean(POPULA.U.00C7..U.00C3.O.ESTIMADA),
+            densidade = mean(DENSIDADE),
+            residuos = mean(RESIDUOS.S.U.00D3.LIDOS.POR.Km2),
+            n = n())
+
+base_cluster %>%
+  filter(fit.cluster == 1)
+
+base_cluster %>%
+  filter(fit.cluster == 2)
