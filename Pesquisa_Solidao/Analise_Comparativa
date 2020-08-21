@@ -1,0 +1,311 @@
+###################
+### BIBLIOTECAS ###
+###################
+
+library(tidyverse)
+library(haven)
+
+###############
+### DATASET ###
+###############
+
+# rm(list = ls())
+
+df <- haven::read_spss("BDD_consolidado_fases 1 e 2_v1.sav")
+glimpse(df)
+
+################
+### ANALISES ###
+################
+
+# Variaveis ordinais, utilizaremos o teste Wilcoxon Signed Rank #
+
+### Tabelas e Testes ###
+
+prop.table(table(df$P1))
+prop.table(table(df$P1_2))
+
+wilcox.test(df$P1, df$P1_2, paired = TRUE)
+
+prop.table(table(df$P2))
+prop.table(table(df$P2_2))
+
+wilcox.test(df$P2, df$P2_2, paired = TRUE)
+
+prop.table(table(df$P3))
+prop.table(table(df$P3_2))
+
+wilcox.test(df$P3, df$P3_2, paired = TRUE)
+
+prop.table(table(df$P4))
+prop.table(table(df$P4_2))
+
+wilcox.test(df$P4, df$P4_2, paired = TRUE)
+
+prop.table(table(df$P5))
+prop.table(table(df$P5_2))
+
+wilcox.test(df$P5, df$P5_2, paired = TRUE)
+
+prop.table(table(df$P6))
+prop.table(table(df$P6_2))
+
+wilcox.test(df$P6, df$P6_2, paired = TRUE)
+
+prop.table(table(df$P7))
+prop.table(table(df$P7_2))
+
+wilcox.test(df$P7, df$P7_2, paired = TRUE)
+
+prop.table(table(df$P8))
+prop.table(table(df$P8_2))
+
+wilcox.test(df$P8, df$P8_2, paired = TRUE)
+
+prop.table(table(df$P12))
+prop.table(table(df$P12_2))
+
+wilcox.test(df$P12, df$P12_2, paired = TRUE)
+
+prop.table(table(df$P13))
+prop.table(table(df$P13_2))
+
+wilcox.test(df$P13, df$P13_2, paired = TRUE)
+
+prop.table(table(df$P14))
+prop.table(table(df$P14_2))
+
+wilcox.test(df$P14, df$P14_2, paired = TRUE)
+
+prop.table(table(df$P15))
+prop.table(table(df$P15_2))
+
+wilcox.test(df$P15, df$P15_2, paired = TRUE)
+
+prop.table(table(df$P16))
+prop.table(table(df$P16_2))
+
+wilcox.test(df$P16, df$P16_2, paired = TRUE)
+
+### Gráficos ###
+
+df %>%
+  select(P1, P1_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P1","P1_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P1","P1_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você se sente infeliz ao fazer coisas sozinho(a)?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P2, P2_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P2","P2_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P2","P2_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você sente que não tem ninguém a quem recorrer?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P3, P3_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P3","P3_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P3","P3_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você acha insuportável ficar sozinho(a)?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P4, P4_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P4","P4_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P4","P4_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você sente que ninguém te entende?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P5, P5_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P5","P5_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P5","P5_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você fica sempre de olho no celular esperando as pessoas responderem às suas mensagens?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P6, P6_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P6","P6_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P6","P6_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você se sente completamente só?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P7, P7_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P7","P7_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P7","P7_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você tem dificuldade em falar com as pessoas em sua volta?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P8, P8_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P8","P8_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P8","P8_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você sente falta de companhia?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P12, P12_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P12","P12_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P12","P12_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você se cobra demais para realizar seus objetivos e projetos pessoais?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P13, P13_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P13","P13_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P13","P13_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você não se sente importante para as pessoas com as quais convive?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P14, P14_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P14","P14_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P14","P14_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você sente que não pertence aos ambientes e círculos sociais com os quais convive?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P15, P15_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P15","P15_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P15","P15_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você sente que sua vida segue no modo automático, sem desafios ou objetivos? ") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
+
+df %>%
+  select(P16, P16_2) %>%
+  gather(key = "Tempo", value = "Resposta") %>%
+  filter(is.na(Resposta) == FALSE) %>%
+  ggplot(aes(group = factor(Tempo, levels = c("P16","P16_2"), labels = c("Antes","Depois")),
+             x = factor(Resposta, levels = c(1,2,3,4), c("Nunca","As vezes", "Raramente", "Sempre")))) +
+  geom_bar(aes(y = (..count..)/sum(..count..),
+               fill = factor(Tempo, levels = c("P16","P16_2"), labels = c("Antes","Depois"))),
+           position=position_dodge()) + 
+  xlab("") + 
+  ylab("") + 
+  scale_y_continuous(labels = scales::percent) + 
+  guides(fill=guide_legend(title="Quando?")) +
+  ggtitle("Você se sente inferiorizado em relação às pessoas com as quais convive no ambiente virtual?") +
+  theme_minimal() + 
+  theme(plot.title = element_text(hjust = 0.5)) 
